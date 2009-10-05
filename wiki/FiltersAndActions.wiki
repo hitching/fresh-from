@@ -1,0 +1,4 @@
+#summary Here you can find all the custom filters and actions in use in the last version of the plugin
+
+= Filters =
+  * *ffff_transform_content ($content, $post)*. Filter the content of every item. The post object is passed as second parameter for advanced customization. 
