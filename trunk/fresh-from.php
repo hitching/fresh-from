@@ -636,9 +636,11 @@ class freshfrom {
 			elseif ($post->meta["_ffff_service"] == "twitter") $digest_title["Twitter"] = 1;
 		}
 
-		// generated digest posts: by service / by user / all together
+        // generated digest posts: by service / by user / all together
 		$ffff_digest_type = get_option("ffff_digest_type");
-		if (get_option("ffff_digest")) {
+        $ffff_digest =  get_option("ffff_digest");
+		
+        if ($ffff_digest) {
 			// order by date desc
 			uasort($keepers, array($this, "sort_posts_by_date"));
 			
@@ -725,8 +727,14 @@ class freshfrom {
 				$posts[$post->meta["_ffff_external_id"]] = $post;
 			}
 		}
-	
-		// get current posts;  array of external_id => post_id
+
+        // enhance content and titles with custom filters
+        foreach($posts AS $post){
+            $post->post_title = apply_filters("ffff_post_title", $post->post_title, $post);
+            $post->post_content = apply_filters("ffff_post_content", $post->post_content, $post);
+        }
+	       
+        // get current posts;  array of external_id => post_id
 		$result = $wpdb->get_results("SELECT meta_value, post_id, post_date FROM {$wpdb->posts}
 			JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID={$wpdb->postmeta}.post_id AND meta_key = '_ffff_external_id'
 			WHERE post_id IN (SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'FreshFrom')");
@@ -1103,7 +1111,8 @@ EOF;
 			}
 		}			
 		
-		return $content;
+		// apply custom filters and return the result
+        return apply_filters("ffff_transform_content", $content, $post);
 	}
 	
 	/**
