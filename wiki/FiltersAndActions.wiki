@@ -1,4 +1,11 @@
 #summary Here you can find all the custom filters and actions in use in the last version of the plugin
 
 = Filters =
+
+Single items
   * *ffff_content ($content, $post)*. Filter the content of every item. The post object is passed as second parameter for advanced customization. 
+  * *ffff_title ($title, $post)*. Filter the title of every item. The post object is passed as second parameter for advanced customization. 
+
+Digest posts
+  * *ffff_digest_title ($title, $digest_post)*. Filter the title of every digest post. The post object is passed as second parameter for advanced customization. 
+  * *ffff_digest_content ($content, $digest_post)*. Filter the content of digests. The post object is passed as second parameter for advanced customization. 
